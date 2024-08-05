@@ -50,27 +50,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-// Runs just one time when the keyboard initializes.
-void matrix_init_user(void) {
-    // Disable the LEDs when the keyboard boots up
-    //rgb_matrix_set_flags(LED_FLAG_NONE);
-    //rgb_matrix_enable_noeeprom();
-
-    // TODO: Figure out why RGB_MODE_PLAIN doesn't work
-    rgb_matrix_mode(1);
-    // value = brightness/ hue = color / saturation = white value
-    rgb_matrix_sethsv(HSV_GOLD);
-    rgb_matrix_decrease_val();
-    rgb_matrix_decrease_val();
-    rgb_matrix_decrease_val();
-    rgb_matrix_decrease_val();
-    rgb_matrix_decrease_val();
-};
-
-// Runs constantly in the background, in a loop.
-void matrix_scan_user(void) {
-};
-
 #define MODS_SHIFT  (get_mods() & MOD_MASK_SHIFT)
 #define MODS_CTRL   (get_mods() & MOD_MASK_CTRL)
 #define MODS_ALT    (get_mods() & MOD_MASK_ALT)
@@ -122,11 +101,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
               switch (rgb_matrix_get_flags()) {
                 case LED_FLAG_ALL: {
-                    rgb_matrix_set_flags(LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER);
+                    rgb_matrix_set_flags(LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR);
                     rgb_matrix_set_color_all(0, 0, 0);
                   }
                   break;
-                case LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER: {
+                case (LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR): {
                     rgb_matrix_set_flags(LED_FLAG_UNDERGLOW);
                     rgb_matrix_set_color_all(0, 0, 0);
                   }
